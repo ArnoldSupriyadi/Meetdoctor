@@ -8,9 +8,6 @@ use App\Models\MasterData\Consultation;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-// this rule only at update request
-use Illuminate\Validation\Rule;
-
 class StoreConsultationRequest extends FormRequest
 {
     /**
