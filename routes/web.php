@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontsite\LandingController;
+use App\Http\Controllers\Frontsite\AppointmentController;
+use App\Http\Controllers\Frontsite\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,11 +15,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::resource('/', LandingController::class);
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix' => 'backsite','as' => 'backsite', 'middleware' => ['auth:sanctum',
+'verified']], function(){
+
+    //appointment page
+    Route::resource('appointment', AppointmentController::class);
+
+    //payment page
+    Route::resource('payment', PaymentController::class);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
