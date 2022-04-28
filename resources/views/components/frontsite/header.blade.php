@@ -43,7 +43,7 @@
 
         <!-- Button (no authenticated) -->
         <div class="hidden lg:ml-10 lg:flex lg:items-center">
-          <a href="src/pages/sign-in.html"
+          <a href="{{ route('login')}}"
             class="inline-flex items-center rounded-full text-[#1E2B4F] text-lg font-medium bg-[#F2F6FE] px-10 py-3">
             Sign In
           </a>
