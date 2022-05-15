@@ -11,9 +11,6 @@ use App\Http\Requests\Specialist\UpdateSpecialistRequest;
 // use Gate;
 use Auth;
 
-//use library
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Response;
 
 // Modal Here;
 use App\Models\MasterData\Specialist;
@@ -67,6 +64,9 @@ class SpecialistController extends Controller
 
         //store to database
         $specialist = Specialist::create($data);
+
+        alert()->success('Success Message', 'Successfully add new specialist');
+        return redirect()->route('backsite.specialist.index');
     }
 
     /**
@@ -75,9 +75,9 @@ class SpecialistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Specialist $specialist)
     {
-        //
+        return view('pages.backsite.master-data.specialist.show', compact('specialist'));
     }
 
     /**
@@ -86,9 +86,9 @@ class SpecialistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Specialist $specialist)
     {
-        //
+        return view('pages.backsite.master-data.specialist.edit', compact('specialist'));
     }
 
     /**
@@ -98,9 +98,15 @@ class SpecialistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(UpdateSpecialistRequest $request, Specialist $specialist)
     {
-        //
+        $data = $request->all();
+
+        //update to database
+        $specialist->update($data);
+
+        alert()->success('Success Message', 'Successfully Update specialist');
+        return redirect()->route('backsite.specialist.index');
     }
 
     /**
@@ -109,8 +115,11 @@ class SpecialistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Specialist $specialist)
     {
-        //
+        $specialist->delete();
+
+        alert()->success('Success Message', 'Successfully Deleted specialist');
+        return back();
     }
 }
