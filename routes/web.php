@@ -1,14 +1,17 @@
 <?php
 
-//Frontsite
 use Illuminate\Support\Facades\Route;
+
+//Frontsite
 use App\Http\Controllers\Frontsite\LandingController;
 use App\Http\Controllers\Frontsite\AppointmentController;
 use App\Http\Controllers\Frontsite\PaymentController;
 
 //Backsite
 use App\Http\Controllers\Backsite\DashboardController;
-
+use App\Http\Controllers\Backsite\TypeUserController;
+use App\Http\Controllers\Backsite\SpecialistController;
+/*
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,10 +33,17 @@ Route::group(['middleware' => ['auth:sanctum','verified']], function(){
 });
 
 
-Route::group(['prefix' => 'backsite','as' => 'backsite', 'middleware' => ['auth:sanctum',
+Route::group(['prefix' => 'backsite','as' => 'backsite.', 'middleware' => ['auth:sanctum',
 'verified']], function(){
 
     //dashboard
     Route::resource('dashboard', DashboardController::class);
+
+     //typeuser
+    Route::resource('type_user', TypeUserController::class);
+
+     //specialist
+    Route::resource('specialist', SpecialistController::class);
+    
 });
 
