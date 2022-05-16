@@ -4,26 +4,27 @@ namespace App\Http\Controllers\Backsite;
 
 use App\Http\Controllers\Controller;
 
-//use library
+// use library here
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
+// request
+use App\Http\Requests\ConfigPayment\UpdateConfigPaymentRequest;
+
 // use everything here
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 // use model here
-use App\Models\Operational\Transaction;
-use App\Models\Operational\Appointment;
-use App\Models\Operational\Doctor;
-use App\Models\User;
-use App\Models\ManagementAccess\DetailUser;
-use App\Models\MasterData\Consultation;
-use App\Models\MasterData\Specialist;
 use App\Models\MasterData\ConfigPayment;
 
-class TransactionController extends Controller
+class ConfigPaymentController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -35,19 +36,11 @@ class TransactionController extends Controller
      */
     public function index()
     {
-         abort_if(Gate::denies('transaction_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('config_payment_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $type_user_condition = Auth::user()->detail_user->type_user_id;
+        $config_payment = ConfigPayment::all();
 
-        if($type_user_condition == 1){
-            // for admin
-            $transaction = Transaction::orderBy('created_at', 'desc')->get();
-        }else{
-            // other admin for doctor & patient ( task for everyone here )
-            $transaction = Transaction::orderBy('created_at', 'desc')->get();
-        }
-
-        return view('pages.backsite.operational.transaction.index', compact('transaction'));
+        return view('pages.backsite.master-data.config-payment.index', compact('config_payment'));
     }
 
     /**
@@ -57,7 +50,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        return abort(404);
+         return abort(404);
     }
 
     /**
@@ -88,9 +81,11 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ConfigPayment $config_payment)
     {
-        return abort(404);
+        abort_if(Gate::denies('config_payment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return view('pages.backsite.master-data.config-payment.edit', compact('config_payment'));
     }
 
     /**
@@ -100,9 +95,21 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(UpdateConfigPaymentRequest $request, ConfigPayment $config_payment)
     {
-        return abort(404);
+        // get all request from frontsite
+        $data = $request->all();
+
+        // re format before push to table
+        $data['fee'] = str_replace(',', '', $data['fee']);
+        $data['fee'] = str_replace('IDR ', '', $data['fee']);
+        $data['vat'] = str_replace(',', '', $data['vat']);
+
+        // update to database
+        $config_payment->update($data);
+
+        alert()->success('Success Message', 'Successfully updated config payment');
+        return redirect()->route('backsite.config_payment.index');
     }
 
     /**

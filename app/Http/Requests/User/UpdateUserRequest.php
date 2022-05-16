@@ -3,7 +3,9 @@
 namespace App\Http\Requests\User;
 
 use App\Models\User;
-// UseGate
+
+use Illuminate\Support\Facades\Gate;
+
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,6 +22,7 @@ class UpdateUserRequest extends FormRequest
     public function authorize()
     {
          // create middleware from kernel at here
+        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return true;
     }
 

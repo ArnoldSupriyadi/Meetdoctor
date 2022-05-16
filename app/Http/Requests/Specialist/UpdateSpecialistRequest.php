@@ -6,7 +6,8 @@ use App\Models\MasterData\Specialist;
 // this rule only at update request
 use Illuminate\Validation\Rule;
 
-// UseGate
+use Illuminate\Support\Facades\Gate;
+
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,6 +21,8 @@ class UpdateSpecialistRequest extends FormRequest
      */
     public function authorize()
     {
+        abort_if(Gate::denies('specialist_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         return true;
     }
 

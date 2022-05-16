@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Backsite;
 use App\Http\Controllers\Controller;
 
 // use everything here
-use Gate;
-use Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 //use library
 use Illuminate\Support\Facades\Storage;
@@ -28,6 +28,7 @@ class TypeUserController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('type_user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         //cara panggil data dengan eloquent
         //1. buat variable dahulu
         $type_user = TypeUser::all();

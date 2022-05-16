@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 // use everything here
-use Gate;
-use Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 // request
 use App\Http\Requests\Role\StoreRoleRequest;
@@ -36,6 +36,8 @@ class RoleController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $role = Role::orderBy('created_at', 'desct')->get();
 
         return view('pages.backsite.management-access.role.index', compact('role'));
@@ -77,6 +79,8 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        abort_if(Gate::denies('role_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         $role->load('permission');
 
         return view('pages.backsite.management-access.role.show', compact('role'));        
@@ -90,6 +94,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
+        abort_if(Gate::denies('role_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $permission = Permission::all();
 
         $role->load('permission');
@@ -121,6 +127,8 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         $role->forceDelete();
 
         alert()->success('Success Message', 'Successfully delete role');

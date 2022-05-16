@@ -4,7 +4,8 @@ namespace App\Http\Requests\Specialist;
 
 use App\Models\MasterData\Specialist;
 
-// UseGate
+use Illuminate\Support\Facades\Gate;
+
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,6 +18,8 @@ class StoreSpecialistRequest extends FormRequest
      */
     public function authorize()
     {
+        abort_if(Gate::denies('specialist_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         return true;
     }
 

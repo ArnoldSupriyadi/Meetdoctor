@@ -2,6 +2,7 @@
 
 namespace App\Models\ManagementAccess;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,6 +29,16 @@ class Role extends Model
         'deleted_at',
     ];
 
+    //many to many
+    public function user() {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function permission()
+    {
+        return $this->belongsToMany('App\Models\ManagementAccess\Permission');
+    }
+
     //one to many
     public function role() {
 
@@ -40,4 +51,5 @@ class Role extends Model
         return $this->hasMany('App\Models\ManagementAccess\Permission', 'role_id');
 
     }
+
 }

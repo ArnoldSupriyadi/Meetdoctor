@@ -12,6 +12,10 @@ use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Backsite\DoctorController;
 use App\Http\Controllers\Backsite\TypeUserController;
 use App\Http\Controllers\Backsite\SpecialistController;
+use App\Http\Controllers\Backsite\PermissionController;
+use App\Http\Controllers\Backsite\UserController;
+use App\Http\Controllers\Backsite\RoleController;
+
 /*
 /*
 |--------------------------------------------------------------------------
@@ -49,5 +53,13 @@ Route::group(['prefix' => 'backsite','as' => 'backsite.', 'middleware' => ['auth
     // doctor
     Route::resource('doctor', DoctorController::class);
     
+    // permission
+    Route::resource('permission', Permission::class);
+
+    // Role
+    Route::resource('role', RoleController::class);
+
+    // user
+    Route::resource('user', UserController::class);
 });
 
