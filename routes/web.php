@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontsite\PaymentController;
 
 //Backsite
 use App\Http\Controllers\Backsite\DashboardController;
+use App\Http\Controllers\Backsite\DoctorController;
 use App\Http\Controllers\Backsite\TypeUserController;
 use App\Http\Controllers\Backsite\SpecialistController;
 /*
@@ -44,6 +45,9 @@ Route::group(['prefix' => 'backsite','as' => 'backsite.', 'middleware' => ['auth
 
      //specialist
     Route::resource('specialist', SpecialistController::class);
+
+    // doctor
+    Route::resource('doctor', DoctorController::class);
     
 });
 

@@ -4,23 +4,26 @@ namespace App\Http\Controllers\Backsite;
 
 use App\Http\Controllers\Controller;
 
+// use library here
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
+
 // use everything here
 use Gate;
 use Auth;
 
-//use library
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Response;
+// use model here
+use App\Models\User;
+use App\Models\Operational\Appointment;
+use App\Models\Operational\Transaction;
+use App\Models\Operational\Doctor;
+use App\Models\MasterData\Specialist;
+use App\Models\MasterData\Consultation;
+use App\Models\MasterData\ConfigPayment;
 
-// Modal Here;
-use App\Models\MasterData\TypeUser;
-
-class TypeUserController extends Controller
+class HospitalPatientController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -28,11 +31,7 @@ class TypeUserController extends Controller
      */
     public function index()
     {
-        //cara panggil data dengan eloquent
-        //1. buat variable dahulu
-        $type_user = TypeUser::all();
-
-        return view('pages.backsite.management-access.type_user.index', compact('type_user'));
+        //
     }
 
     /**
@@ -42,18 +41,18 @@ class TypeUserController extends Controller
      */
     public function create()
     {
-        return abort (404);
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\  $
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store()
     {
-        return abort (404);
+        //
     }
 
     /**
@@ -64,7 +63,7 @@ class TypeUserController extends Controller
      */
     public function show($id)
     {
-        return abort (404);
+        //
     }
 
     /**
@@ -75,19 +74,19 @@ class TypeUserController extends Controller
      */
     public function edit($id)
     {
-        return abort (404);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\  $
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update()
+    public function update($id)
     {
-        return abort (404);
+        //
     }
 
     /**
@@ -98,6 +97,6 @@ class TypeUserController extends Controller
      */
     public function destroy($id)
     {
-        return abort (404);
+        //
     }
 }

@@ -8,7 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Doctor\StoreDoctorRequest;
 use App\Http\Requests\Doctor\UpdateDoctorRequest;
 
-// use Gate;
+// use everything here
+use Gate;
 use Auth;
 
 //use library
@@ -65,6 +66,7 @@ class DoctorController extends Controller
         //for select to = ascending a to z
         $specialist = Specialist::orderBy('name', 'asc')->get();
 
+        alert()->success('Success Message', 'Successfully add new Doctor');
         return view('pages.backsite.operational.doctor.index', compact('doctor', 'specialist'));
     }
 
@@ -90,6 +92,7 @@ class DoctorController extends Controller
         //for select to = ascending a to z
         $specialist = Specialist::orderBy('name', 'asc')->get();
 
+        alert()->success('Success Message', 'Successfully edit Doctor');
         return view('pages.backsite.operational.doctor.edit', compact('doctor' ,'specialist'));
     }
 
@@ -107,7 +110,7 @@ class DoctorController extends Controller
         //update to database
         $doctor->update($data);
 
-        alert()->success('Success Message', 'Successfully Update doctor');
+        alert()->success('Success Message', 'Successfully update Doctor');
         return redirect()->route('backsite.doctor.index');
     }
 

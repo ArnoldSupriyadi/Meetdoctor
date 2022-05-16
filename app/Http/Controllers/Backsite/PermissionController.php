@@ -4,18 +4,21 @@ namespace App\Http\Controllers\Backsite;
 
 use App\Http\Controllers\Controller;
 
-// use everything here
-use Gate;
-use Auth;
-
 //use library
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
-// Modal Here;
-use App\Models\MasterData\TypeUser;
+// use everything here
+use Gate;
+use Auth;
 
-class TypeUserController extends Controller
+//use model here
+use App\Models\ManagementAccess\Permission;
+use App\Models\ManagementAccess\PermissionRole;
+use App\Models\ManagementAccess\Role;
+use App\Models\ManagementAccess\RoleUser;
+
+class PermissionController extends Controller
 {
     public function __construct()
     {
@@ -26,13 +29,13 @@ class TypeUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     
     public function index()
     {
-        //cara panggil data dengan eloquent
-        //1. buat variable dahulu
-        $type_user = TypeUser::all();
+        $permission = Permission::orderBy('id', 'asc')->get();
 
-        return view('pages.backsite.management-access.type_user.index', compact('type_user'));
+        return view('pages.backsite.management-access.permission.index', compact('permission'));
     }
 
     /**
@@ -42,18 +45,18 @@ class TypeUserController extends Controller
      */
     public function create()
     {
-        return abort (404);
+        return abort(404);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\  $
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store()
     {
-        return abort (404);
+        return abort(404);
     }
 
     /**
@@ -64,7 +67,7 @@ class TypeUserController extends Controller
      */
     public function show($id)
     {
-        return abort (404);
+        return abort(404);
     }
 
     /**
@@ -75,19 +78,19 @@ class TypeUserController extends Controller
      */
     public function edit($id)
     {
-        return abort (404);
+        return abort(404);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\  $
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update()
     {
-        return abort (404);
+        return abort(404);
     }
 
     /**
@@ -98,6 +101,6 @@ class TypeUserController extends Controller
      */
     public function destroy($id)
     {
-        return abort (404);
+        return abort(404);
     }
 }
