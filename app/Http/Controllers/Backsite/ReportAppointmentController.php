@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Backsite;
 
 use App\Http\Controllers\Controller;
-use App\Models\Operational\Appointment;
 
-//use library
+// use library here
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,12 +12,28 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
-class AppointmentController extends Controller
+
+// use model here
+use App\Models\Operational\Appointment;
+use App\Models\Operational\Doctor;
+use App\Models\Operational\Transaction;
+use App\Models\User;
+use App\Models\MasterData\Consultation;
+
+// thirdparty package
+
+class ReportAppointmentController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -48,7 +63,7 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -57,9 +72,9 @@ class AppointmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()    
+    public function store()
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -70,7 +85,7 @@ class AppointmentController extends Controller
      */
     public function show($id)
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -81,7 +96,7 @@ class AppointmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -93,7 +108,7 @@ class AppointmentController extends Controller
      */
     public function update()
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -104,6 +119,6 @@ class AppointmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return abort(404);
     }
 }

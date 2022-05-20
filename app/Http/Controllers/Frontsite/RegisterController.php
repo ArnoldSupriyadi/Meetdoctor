@@ -4,36 +4,40 @@ namespace App\Http\Controllers\Frontsite;
 
 use App\Http\Controllers\Controller;
 
-//use library
+// use library here
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\DB;
 
+// use everything here
 // use Gate;
-use File;
 use Illuminate\Support\Facades\Auth;
 
-// Modal Here;
+// use model here
 use App\Models\User;
-use App\Models\Operational\Doctor;
-use App\Models\MasterData\Specialist;
 
-//thirdparty package
+// thirdparty package
 
-
-class LandingController extends Controller
+class RegisterController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    
     public function index()
     {
-        $specialist = Specialist::orderBy('name', 'desc')->limit(5)->get();
-        $doctor = Doctor::orderBy('created_at', 'desc')->limit(4)->get();
-
-        return view('pages.frontsite.landing-page.index', compact('doctor', 'specialist'));
+        return view('pages.frontsite.success.signup-success');
     }
 
     /**

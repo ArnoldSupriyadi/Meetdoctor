@@ -11,7 +11,7 @@ class CreateDoctorTable extends Migration
      *
      * @return void
      */
-    public function up()
+     public function up()
     {
         Schema::create('doctor', function (Blueprint $table) {
             $table->id();
@@ -19,9 +19,8 @@ class CreateDoctorTable extends Migration
             $table->string('name');
             $table->string('fee');
             $table->longText('photo')->nullable();
-            $table->softDeletes();
             $table->timestamps();
-            
+            $table->softDeletes();
         });
     }
 
