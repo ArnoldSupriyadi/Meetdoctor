@@ -11,7 +11,7 @@ class CreateDoctorTable extends Migration
      *
      * @return void
      */
-     public function up()
+    public function up()
     {
         Schema::create('doctor', function (Blueprint $table) {
             $table->id();
@@ -24,7 +24,7 @@ class CreateDoctorTable extends Migration
         });
     }
 
-    /** 
+    /**
      * Reverse the migrations.
      *
      * @return void

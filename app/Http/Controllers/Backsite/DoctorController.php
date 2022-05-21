@@ -4,24 +4,27 @@ namespace App\Http\Controllers\Backsite;
 
 use App\Http\Controllers\Controller;
 
-// request
-use App\Http\Requests\Doctor\StoreDoctorRequest;
-use App\Http\Requests\Doctor\UpdateDoctorRequest;
-
-// use everything here
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-
 // use library here
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+// request
+use App\Http\Requests\Doctor\StoreDoctorRequest;
+use App\Http\Requests\Doctor\UpdateDoctorRequest;
+
+// use everything here
+use Gate;
+use Auth;
+use File;
+
 // use model here
 use App\Models\Operational\Doctor;
 use App\Models\MasterData\Specialist;
+
+// thirdparty package
+
 class DoctorController extends Controller
 {
     /**
@@ -92,7 +95,6 @@ class DoctorController extends Controller
             $data['photo'] = "";
         }
 
-        dd($data);
         // store to database
         $doctor = Doctor::create($data);
 
