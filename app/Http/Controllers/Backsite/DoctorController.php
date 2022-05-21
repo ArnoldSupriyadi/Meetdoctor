@@ -10,7 +10,7 @@ use App\Http\Requests\Doctor\UpdateDoctorRequest;
 
 // use everything here
 use Illuminate\Support\Facades\Gate;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 // use library here
@@ -19,16 +19,21 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-// Modal Here;
+// use model here
 use App\Models\Operational\Doctor;
 use App\Models\MasterData\Specialist;
-
 class DoctorController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,10 +42,11 @@ class DoctorController extends Controller
     public function index()
     {
         abort_if(Gate::denies('doctor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        //for table grid
-        $doctor = Specialist::orderBy('created_at', 'desc')->get();
 
-        //for select to = ascending a to z
+        // for table grid
+        $doctor = Doctor::orderBy('created_at', 'desc')->get();
+
+        // for select2 = ascending a to z
         $specialist = Specialist::orderBy('name', 'asc')->get();
 
         return view('pages.backsite.operational.doctor.index', compact('doctor', 'specialist'));
@@ -86,6 +92,7 @@ class DoctorController extends Controller
             $data['photo'] = "";
         }
 
+        dd($data);
         // store to database
         $doctor = Doctor::create($data);
 

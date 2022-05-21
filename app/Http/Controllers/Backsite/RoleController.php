@@ -38,7 +38,7 @@ class RoleController extends Controller
     {
         abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $role = Role::orderBy('created_at', 'desct')->get();
+        $role = Role::orderBy('created_at', 'desc')->get();
 
         return view('pages.backsite.management-access.role.index', compact('role'));
     }

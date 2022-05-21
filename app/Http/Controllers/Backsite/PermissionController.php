@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 // use everything here
 use Illuminate\Support\Facades\Gate;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 //use model here
 use App\Models\ManagementAccess\Permission;
