@@ -11,15 +11,14 @@
         <!-- Doctor Information -->
         <div class="flex flex-wrap items-center space-x-5">
           <div class="flex-shrink-0">
-            <img src="{{ asset('assets/frontsite/images/doctor-1.png')}}" class="w-20 h-20 rounded-full bg-center object-cover object-top"
-              alt="Doctor 1" />
+            <img src="{{ url(Storage::url($appointment->doctor->photo)) ?? '' }}" class="w-20 h-20 rounded-full bg-center object-cover object-top" alt="Doctor 1"/>
           </div>
 
           <div class="flex-1 space-y-1">
             <div class="text-[#1E2B4F] text-lg font-semibold">
-              Dr. Galih Pratama
+              {{ $appointment->doctor->name ?? '' }}
             </div>
-            <div class="text-[#AFAEC3]">Cardiologist</div>
+            <div class="text-[#AFAEC3]">{{ $appointment->doctor->specialist->name ?? '' }}</div>
 
             <!--
                 Icon when mobile is show.
@@ -106,27 +105,45 @@
           <h5 class="text-[#1E2B4F] text-lg font-semibold">Appointment</h5>
           <div class="flex items-center justify-between mt-5">
             <div class="text-[#AFAEC3] font-medium">Kebutuhan konsultasi</div>
-            <div class="text-[#1E2B4F] font-medium">Jantung sesak</div>
+            <div class="text-[#1E2B4F] font-medium">{{ $appointment->consultation->name ?? '' }}</div>
           </div>
 
           <div class="flex items-center justify-between mt-5">
             <div class="text-[#AFAEC3] font-medium">Level</div>
-            <div class="text-[#1E2B4F] font-medium">Medium</div>
+            <div class="text-[#1E2B4F] font-medium">
+                  @if ($appointment->level == 1)
+                      {{ 'Low' }}
+                  @elseif ($appointment->level == 2)
+                      {{ 'Medium' }}
+                  @elseif ($appointment->level == 3)
+                      {{ 'High' }}
+                  @else
+                      {{ 'N/A' }}
+                  @endif
+             </div>
           </div>
 
           <div class="flex items-center justify-between mt-5">
             <div class="text-[#AFAEC3] font-medium">Dijadwalkan pada</div>
-            <div class="text-[#1E2B4F] font-medium">12 Januari 2022</div>
+            <div class="text-[#1E2B4F] font-medium">{{ date("d F Y",strtotime($appointment->date)) ?? '' }}</div>
           </div>
 
           <div class="flex items-center justify-between mt-5">
             <div class="text-[#AFAEC3] font-medium">Waktu</div>
-            <div class="text-[#1E2B4F] font-medium">15:30 PM</div>
+            <div class="text-[#1E2B4F] font-medium">{{ date("H:i",strtotime($appointment->time)) ?? '' }}</div>
           </div>
 
           <div class="flex items-center justify-between mt-5">
             <div class="text-[#AFAEC3] font-medium">Status</div>
-            <div class="text-[#1E2B4F] font-medium">Waiting for Payment</div>
+            <div class="text-[#1E2B4F] font-medium">
+                  @if ($appointment->status == 1)
+                      {{ 'Payment Completed' }}
+                  @elseif ($appointment->status == 2)
+                      {{ 'Waiting Payment' }}
+                  @else
+                      {{ 'N/A' }}
+                  @endif
+              </div>
           </div>
         </div>
 
@@ -135,31 +152,31 @@
           <h5 class="text-[#1E2B4F] text-lg font-semibold">
             Payment Information
           </h5>
-          <div class="flex items-center justify-between mt-5">
-            <div class="text-[#AFAEC3] font-medium">Biaya konsultasi</div>
-            <div class="text-[#1E2B4F] font-medium">$5,000</div>
-          </div>
+              <div class="flex items-center justify-between mt-5">
+                  <div class="text-[#AFAEC3] font-medium">Biaya konsultasi</div>
+                  <div class="text-[#1E2B4F] font-medium">{{ 'IDR '.number_format($appointment->doctor->specialist->price) ?? '' }}</div>
+              </div>
 
-          <div class="flex items-center justify-between mt-5">
-            <div class="text-[#AFAEC3] font-medium">Fee dokter</div>
-            <div class="text-[#1E2B4F] font-medium">$200</div>
-          </div>
+              <div class="flex items-center justify-between mt-5">
+                  <div class="text-[#AFAEC3] font-medium">Fee dokter</div>
+                  <div class="text-[#1E2B4F] font-medium">{{ 'IDR '.number_format($appointment->doctor->fee) ?? '' }}</div>
+              </div>
 
-          <div class="flex items-center justify-between mt-5">
-            <div class="text-[#AFAEC3] font-medium">Fee hospital</div>
-            <div class="text-[#1E2B4F] font-medium">$10</div>
-          </div>
+              <div class="flex items-center justify-between mt-5">
+                  <div class="text-[#AFAEC3] font-medium">Fee hospital</div>
+                  <div class="text-[#1E2B4F] font-medium">{{ 'IDR '.number_format($config_payment->fee) ?? '' }}</div>
+              </div>
 
-          <div class="flex items-center justify-between mt-5">
-            <div class="text-[#AFAEC3] font-medium">VAT 20%</div>
-            <div class="text-[#1E2B4F] font-medium">$372</div>
-          </div>
+              <div class="flex items-center justify-between mt-5">
+                  <div class="text-[#AFAEC3] font-medium">VAT {{ $config_payment->vat ?? '' }}%</div>
+                  <div class="text-[#1E2B4F] font-medium">{{ 'IDR '.number_format($total_with_vat) ?? '' }}</div>
+              </div>
 
-          <div class="flex items-center justify-between mt-5">
-            <div class="text-[#AFAEC3] font-medium">Grand total</div>
-            <div class="text-[#2AB49B] font-semibold">$6,500</div>
+              <div class="flex items-center justify-between mt-5">
+                  <div class="text-[#AFAEC3] font-medium">Grand total</div>
+                  <div class="text-[#2AB49B] font-semibold">{{ 'IDR '.number_format($grand_total) ?? '' }}</div>
+              </div>
           </div>
-        </div>
       </div>
 
       <!-- Choose Payment -->
@@ -168,67 +185,119 @@
           Choose Your <br />
           Payment Method
         </h3>
-        <form action="" x-data="{ payment: '' }" class="mt-8">
-          <!-- List Payment -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-5">
-            <div class="relative">
-              <input type="radio" name="payment" x-model="payment" value="master-card" id="master-card"
-                class="sr-only peer" />
-              <label
-                class="flex flex-col justify-center items-center bg-white border-[#EDEDED] cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-[#0D63F3] peer-checked:ring-2 peer-checked:border-transparent rounded-3xl border-2 p-7"
-                for="master-card">
-                <img src="{{ asset('assets/frontsite/images/master-card.png')}}" class="max-h-[50px] inline-block" alt="Master card" />
-              </label>
-            </div>
+                        <form action="{{ route('payment.store') }}" method="POST" enctype="multipart/form-data" x-data="{ payment: '' }" class="mt-8">
 
-            <div class="relative">
-              <input type="radio" name="payment" x-model="payment" value="visa" id="visa" class="sr-only peer" />
-              <label
-                class="flex flex-col justify-center items-center bg-white border-[#EDEDED] cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-[#0D63F3] peer-checked:ring-2 peer-checked:border-transparent rounded-3xl border-2 p-7"
-                for="visa">
-                <img src="{{ asset('assets/frontsite/images/visa.png')}}" class="max-h-[50px] inline-block" alt="Master card" />
-              </label>
-            </div>
+                    @csrf
 
-            <div class="relative">
-              <input type="radio" name="payment" x-model="payment" value="cirrus" id="cirrus" class="sr-only peer" />
-              <label
-                class="flex flex-col justify-center items-center bg-white border-[#EDEDED] cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-[#0D63F3] peer-checked:ring-2 peer-checked:border-transparent rounded-3xl border-2 p-7"
-                for="cirrus">
-                <img src="{{ asset('assets/frontsite/images/cirrus.png')}}" class="max-h-[50px] inline-block" alt="Master card" />
-              </label>
-            </div>
+                    <!-- List Payment -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-5">
+                        <div class="relative">
+                            <input
+                                type="radio"
+                                name="payment"
+                                x-model="payment"
+                                value="master-card"
+                                id="master-card"
+                                class="sr-only peer"
+                            />
 
-            <div class="relative">
-              <input type="radio" name="payment" x-model="payment" value="mewallet" id="mewallet"
-                class="sr-only peer" />
-              <label
-                class="flex flex-col justify-center items-center bg-white border-[#EDEDED] cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-[#0D63F3] peer-checked:ring-2 peer-checked:border-transparent rounded-3xl border-2 p-7"
-                for="mewallet">
-                <img src="{{ asset('assets/frontsite/images/mewallet.png')}}" class="max-h-[50px] inline-block" alt="Master card" />
-                <div class="text-[11px] sm:text-sm mt-3">Balance: $18,000</div>
-              </label>
-            </div>
-          </div>
+                            <label
+                                class="flex flex-col justify-center items-center bg-white border-[#EDEDED] cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-[#0D63F3] peer-checked:ring-2 peer-checked:border-transparent rounded-3xl border-2 p-7"
+                                for="master-card"
+                            >
+                                <img
+                                src="{{ asset('/assets/frontsite/images/master-card.png') }}"
+                                class="max-h-[50px] inline-block"
+                                alt="Master card"
+                                />
+                            </label>
+                        </div>
 
-          <div class="mt-10 grid">
-            <!--
-                button when payment is filled.
-              -->
-            <a href="{{route('')}}" class="bg-[#0D63F3] text-white px-10 py-3 rounded-full text-center"
-              x-show="payment.length">
-              Pay Now
-            </a>
+                        <div class="relative">
+                            <input
+                                type="radio"
+                                name="payment"
+                                x-model="payment"
+                                value="visa"
+                                id="visa"
+                                class="sr-only peer"
+                            />
+                            <label
+                                class="flex flex-col justify-center items-center bg-white border-[#EDEDED] cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-[#0D63F3] peer-checked:ring-2 peer-checked:border-transparent rounded-3xl border-2 p-7"
+                                for="visa"
+                            >
+                                <img
+                                src="{{ asset('/assets/frontsite/images/visa.png') }}"
+                                class="max-h-[50px] inline-block"
+                                alt="Master card"
+                                />
+                            </label>
+                        </div>
 
-            <!--
-                button when payment is empty.
-              -->
-            <span x-show="!payment.length"
-              class="bg-[#C0CADA] text-[#808997] cursor-not-allowed px-10 py-3 rounded-full text-center">
-              Pay Now
-            </span>
-          </div>
-        </form>
+                        <div class="relative">
+                            <input
+                                type="radio"
+                                name="payment"
+                                x-model="payment"
+                                value="cirrus"
+                                id="cirrus"
+                                class="sr-only peer"
+                            />
+                            <label
+                                class="flex flex-col justify-center items-center bg-white border-[#EDEDED] cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-[#0D63F3] peer-checked:ring-2 peer-checked:border-transparent rounded-3xl border-2 p-7"
+                                for="cirrus"
+                            >
+                                <img
+                                src="{{ asset('/assets/frontsite/images/cirrus.png') }}"
+                                class="max-h-[50px] inline-block"
+                                alt="Master card"
+                                />
+                            </label>
+                        </div>
+
+                        <div class="relative">
+                            <input
+                                type="radio"
+                                name="payment"
+                                x-model="payment"
+                                value="mewallet"
+                                id="mewallet"
+                                class="sr-only peer"
+                            />
+                            <label
+                                class="flex flex-col justify-center items-center bg-white border-[#EDEDED] cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-[#0D63F3] peer-checked:ring-2 peer-checked:border-transparent rounded-3xl border-2 p-7"
+                                for="mewallet"
+                            >
+                                <img
+                                src="{{ asset('/assets/frontsite/images/mewallet.png') }}"
+                                class="max-h-[50px] inline-block"
+                                alt="Master card"
+                                />
+                                <div class="text-[11px] sm:text-sm mt-3">Balance: $18,000</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 grid">
+
+                        <input type="hidden" name="appointment_id" value="{{ $id ?? '' }}">
+
+                        <!--
+                        button when payment is filled.
+                        -->
+                        <button type="submit" class="bg-[#0D63F3] text-white px-10 py-3 rounded-full text-center" x-show="payment.length" onclick="return confirm('Are you sure want to payment this appointment ?')">Pay Now</button>
+
+                        <!--
+                        button when payment is empty.
+                        -->
+                        <span
+                            x-show="!payment.length"
+                            class="bg-[#C0CADA] text-[#808997] cursor-not-allowed px-10 py-3 rounded-full text-center"
+                            >
+                            Pay Now
+                        </span>
+                    </div>
+                </form>
       </div>
     </div>
   </div>
