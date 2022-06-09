@@ -185,7 +185,7 @@
           Choose Your <br />
           Payment Method
         </h3>
-                        <form action="{{ route('payment.store') }}" method="POST" enctype="multipart/form-data" x-data="{ payment: '' }" class="mt-8">
+                    <form action="{{ route('payment.store') }}" method="POST" enctype="multipart/form-data" x-data="{ payment: '' }" class="mt-8">
 
                     @csrf
 
